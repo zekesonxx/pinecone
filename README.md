@@ -13,9 +13,12 @@ It was written by running `$ acorn try.js > try.json` and looking at the JSON ov
 * If/ifelse/else
 * `typeof thing` (turned into `type(thing)`)
 * Graceful failing
+* While loops
+* Do While loops (converted to `repeat` loops)
 
 ## What doesn't
 * Comments
+* For loops
 * Everything else
 
 
@@ -59,6 +62,7 @@ end
 Not to be rude, but good luck. The codebase is in sore shape.  
 I tried to comment as much as possible, but it's not that great, and badly organized.
 But if you do decide to contribute, make sure you code passes a jshint lint.
+Outputted Lua code made from JS code that passes jshint (that pinecone fully supports) should pass luac.
 
 ## License
 MIT licensed. Refer to `LICENSE.md`.

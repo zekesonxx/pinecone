@@ -18,7 +18,6 @@ function ifStatement (action, newline, offset, nested) {
   if (action.alternate !== null) { //there's an else or an elseif
     if (action.alternate.type === 'IfStatement') { //elseif
       o += 'else' + ifStatement(action.alternate, newline, offset, true);
-      //o += convert(action.alternate.consequent.body, 2+offset, true).join('\n')+newline;
     } else if (action.alternate.type === 'BlockStatement') { //else
       o += 'else'+newline;
       o += convert(action.alternate.body, 2+offset, true).join('\n')+newline;
@@ -40,6 +39,7 @@ function convert (code, offset, nested) {
   var newline = '\n'+indent;
   var output = [];
   if (!nested){
+    //The watermark at the top of the code
     output = [
       '--# Converted using pinecone',''
     ];
@@ -98,6 +98,24 @@ function convert (code, offset, nested) {
             o += ' = ';
             o += h.variableConvert(expr.right.value);
             break;
+          case "UpdateExpression": //a++
+            var prefix = expr.prefix;
+            var comment = true;
+            switch (expr.operator) {
+              case "++":
+                o += expr.argument.name + ' = ' + expr.argument.name + ' + 1';
+                break;
+              case "--":
+                o += expr.argument.name + ' = ' + expr.argument.name + ' - 1';
+                break;
+              default:
+                o = h.failedConvert(action, 'Unknown UpdateExpression');
+                comment = false;
+            }
+            if (comment) {
+              o += ' --#'+expr.operator;
+            }
+            break;
           case "CallExpression": // a(1)
             var callee = expr.callee;
             if (callee.type === "Identifier") {
@@ -139,9 +157,26 @@ function convert (code, offset, nested) {
         o += convert(action.body.body, 2+offset, true).join('\n')+newline;
         o += 'end';
         break;
-      case "ReturnStatement":
+      case "ReturnStatement": //return 1;
         o += 'return ';
         o += h.testConvert(action.argument);
+        break;
+      case "WhileStatement": // while (1) {a();}
+         o += 'while ';
+         o += h.testConvert(action.test);
+         o += ' do'+newline;
+         o += convert(action.body.body, 2+offset, true).join('\n')+newline;
+         o += 'end';
+        break;
+      case "DoWhileStatement": // do {a();} while (1)
+        o += 'repeat'+newline;
+        o += convert(action.body.body, 2+offset, true).join('\n')+newline;
+        o += 'until ';
+        o += h.testConvert(action.test)+newline;
+        break;
+
+      case "ForStatement":
+        o += h.failedConvert(action, 'For loops aren\'t supported yet');
         break;
       default:
         //stop using the 99% of JS that we don't support, dammit.

@@ -9,7 +9,7 @@ h.variableConvert = function (inp) {
       out = inp.toString();
       break;
     case "boolean":
-      out = (inp) ? 'true':'false';
+      out = (inp) ? 'true' : 'false';
       break;
   }
   return out;
@@ -55,6 +55,8 @@ h.testConvert = function (test, nested) {
     case "UnaryExpression":
       if (test.operator == 'typeof') {
         out = "type(" + h.testConvert(test.argument) + ")";
+      } else if (test.operator == 'void') {
+        out = "nil";
       } else {
         out = h.failedConvert(test, 'Unknown Unary Expression');
       }
