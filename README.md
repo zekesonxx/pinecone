@@ -45,17 +45,19 @@ var f = function () {
 ````
 turns into
 ````lua
+--# Converted using pinecone v0.1.0
+
 local k, b, f = "blue", nil, 12
 local p = 4
 if type(k) == "string" then
   print("String!")
+  
 end
 function bacon()
   return "bacon"
+  
 end
-local f = function()
-
-end
+local f = function() end
 ````
 
 ## Contributing
@@ -65,7 +67,7 @@ But if you do decide to contribute, make sure you code passes a jshint lint.
 Outputted Lua code made from JS code that passes jshint (that pinecone fully supports) should pass luac.
 
 ## License
-MIT licensed. Refer to `LICENSE.md`.
+MIT licensed. Refer to `LICENSE`.
 
 
   [acorn]: https://github.com/marijnh/acorn
