@@ -1,0 +1,41 @@
+#!/usr/bin/env node
+'use strict';
+var fs = require('fs');
+var path = require('path');
+var pinecone = require('../');
+var argv = require('minimist')(process.argv.slice(2), {
+  string: ['o', 'output'],
+  boolean: ['ast']
+});
+
+function help() {
+  console.log('    pinecone [-opts] [input file]');
+  console.log('      -o --output <file> Output File, otherwise outputs to stdout');
+  console.log('         --ast Input file is AST JSON, and not raw JS');
+}
+
+
+if (argv._.length === 0) {
+  help();
+  process.exit(0);
+}
+
+var file = path.join(process.cwd(), argv._[0]);
+fs.readFile(file, { encoding: 'utf8' }, function(err, data) {
+  if (err) throw err;
+  var output;
+  if (argv.ast) {
+    output = pinecone.convertFromAST(data);
+  } else {
+    output = pinecone.convert(data);
+  }
+  if (argv.o || argv.output) {
+    var outfile = path.join(process.cwd(), argv.output || argv.o);
+    fs.writeFile(outfile, output, function(err) {
+      if (err) throw err;
+      else console.log('Saved to ' + outfile);
+    });
+  } else {
+    console.log(output);
+  }
+});

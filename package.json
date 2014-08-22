@@ -3,10 +3,15 @@
   "version": "0.1.0",
   "description": "JavaScript->Lua converter",
   "main": "lib/index.js",
+  "bin": {
+    "pinecone": "bin/pinecone"
+  },
+  "preferGlobal": true,
   "dependencies": {
     "acorn": "~0.5.0",
     "debug": "^0.8.1",
-    "fast.js": "0.0.3"
+    "fast.js": "0.0.3",
+    "minimist": "^1.1.0"
   },
   "repository": {
     "type": "git",
