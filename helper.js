@@ -1,3 +1,4 @@
+//jshint ignore:start
 var h = {};
 h.variableConvert = function (inp) {
   var out = "";
@@ -56,6 +57,10 @@ h.testConvert = function (test, nested) {
       if (test.operator == 'typeof') {
         out = "type(" + h.testConvert(test.argument) + ")";
       } else if (test.operator == 'void') {
+        //Explanation
+        //The void operator returns undefined
+        //Lua subs nil for undefined, as well as for null.
+        //tl;dr: the void command is stupid.
         out = "nil";
       } else {
         out = h.failedConvert(test, 'Unknown Unary Expression');

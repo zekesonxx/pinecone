@@ -1,0 +1,8 @@
+{
+  "globalstrict": true,
+  "node": true,
+  "undef": true,
+  "indent": 2,
+  "quotmark": "single",
+  "predef": ["describe", "it", "before", "beforeEach", "after", "afterEach"]
+}

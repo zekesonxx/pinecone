@@ -1,4 +1,4 @@
-
+//jshint ignore:start
 var fs = require('fs');
 var acorn = require('acorn');
 

@@ -1,3 +1,4 @@
+//jshint ignore:start
 /**
  * My attempt at creating a JavaScript -> Lua converter.
  * It's not perfect, and the code is weird looking, but it is correct.
