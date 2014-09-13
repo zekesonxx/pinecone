@@ -4,6 +4,17 @@ So, I wrote a JS->Lua converter. Instead of being based on regex or some other d
 
 It was written by running `$ acorn try.js > try.json` and looking at the JSON over and over, so don't expect very good standard conformity.
 
+## The Wall
+Pinecone has almost hit the wall. There isn't much that can still be done, due to a couple key issues with how JavaScript and Lua are different:
+* `..` used for concatinating strings
+* How JS/Lua handle types
+* `typeof k === 'object'` -> `type(k) == 'object'`. Lua doesn't have that.
+* JS object literals and Lua tables
+* `"4" == 4` is true in JS, but false in Lua.
+* Should things like `console.log` be turned into `print`?
+
+This can be handled in a couple different ways, but none are very good options.
+
 ## What works
 * Variables `var a = 1`
 * Multiple Variables `var a = 1, b = 2`
@@ -23,7 +34,23 @@ It was written by running `$ acorn try.js > try.json` and looking at the JSON ov
 
 
 ## Usage
-Don't.
+**CLI**
+````text
+$ npm install -g pinecone
+$ pinecone file.js -o file.lua
+````
+
+**Programmically**
+````js
+var pinecone = require('pinecone'); // npm install pinecone
+var input = "var k = 9;";
+
+pinecone.convert(input);
+//Alternatively, if you already have the AST:
+pinecone.convertFromAST(require('acorn').parse(input, {}));
+
+````
+
 
 ## Example
 ````js
@@ -61,10 +88,8 @@ local f = function() end
 ````
 
 ## Contributing
-Not to be rude, but good luck. The codebase is in sore shape.  
-I tried to comment as much as possible, but it's not that great, and badly organized.
-But if you do decide to contribute, make sure you code passes a jshint lint.
-Outputted Lua code made from JS code that passes jshint (that pinecone fully supports) should pass luac.
+Contributions are welcome. Use two spaces for tabs, and try to keep your code looking like the rest of it.
+Make sure your code passes a jshint lint. Outputted Lua code made from JS code that passes jshint (that pinecone fully supports) should pass luac.
 
 ## License
 MIT licensed. Refer to `LICENSE`.
