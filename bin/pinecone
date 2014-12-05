@@ -8,15 +8,35 @@ var argv = require('minimist')(process.argv.slice(2), {
   boolean: ['ast']
 });
 
-function help() {
-  console.log('    pinecone [-opts] <input file>');
-  console.log('      -o --output <file> Output File, otherwise outputs to stdout');
-  console.log('         --ast Input file is AST JSON, and not raw JS');
-}
+var nomnom = require('nomnom')
+   .script('pinecone')
+   .option('ast', {
+      flag: true,
+      help: 'Input is SpiderMonkey AST and not raw JavaScript.'
+   })
+   .option('output', {
+    abbr: 'o',
+    type: 'string',
+    help: 'Output file, otherwise outputs to stdout'
+   })
+   .option('version', {
+      abbr: 'v',
+      flag: true,
+      help: 'print version and exit',
+      callback: function() {
+         return 'pinecone version '+require('../package.json').version;
+      }
+   })
+   .option('file', {
+    position: 0,
+    help: 'Input filename. Currently only supports one file.',
+    required: true
+   })
+   .nocolors();
+var opts = nomnom.parse();
 
-
-if (argv._.length === 0) {
-  help();
+if (opts._.length === 0) {
+  console.log(nomnom.getUsage());
   process.exit(0);
 }
 
