@@ -44,7 +44,6 @@ var file = path.join(process.cwd(), argv._[0]);
 fs.readFile(file, { encoding: 'utf8' }, function(err, data) {
   if (err) throw err;
   var output;
-  console.log(data);
   if (argv.ast) {
     output = pinecone.convertFromAST(JSON.parse(data));
   } else {
