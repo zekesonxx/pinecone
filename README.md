@@ -89,7 +89,9 @@ Contributions are welcome. Use two spaces for tabs, and try to keep your code lo
 Make sure your code passes a jshint lint. Outputted Lua code made from JS code that passes jshint (that pinecone fully supports) should pass luac.
 
 ## License
-MIT licensed. Refer to `LICENSE`.
+LGPL3 licensed. This means that any modifications to Pinecone must be released under the (L)GPL3, but that anything you compile with pinecone isn't bound by the (L)GPL3.
+
+Refer to `LICENSE`.
 
 
   [acorn]: https://github.com/marijnh/acorn
