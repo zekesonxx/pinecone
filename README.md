@@ -4,16 +4,12 @@ So, I wrote a JS->Lua converter. Instead of being based on regex or some other d
 
 It was written by running `$ acorn try.js > try.json` and looking at the JSON over and over, so don't expect very good standard conformity.
 
-## The Wall
-Pinecone has almost hit the wall. There isn't much that can still be done, due to a couple key issues with how JavaScript and Lua are different:
-* `..` used for concatinating strings
-* How JS/Lua handle types
-* `typeof k === 'object'` -> `type(k) == 'object'`. Lua doesn't have that.
-* JS object literals and Lua tables
-* `"4" == 4` is true in JS, but false in Lua.
-* Should things like `console.log` be turned into `print`?
+## Some notes
+Pinecone is designed for writing JavaScript that's written with the intention of being compiled in pinecone. It's not designed to handle any arbitrary JavaScript code, and as such will not be self-compiling anytime soon. :(
 
-This can be handled in a couple different ways, but none are very good options.
+A relatively small runtime is required, you can choose where it goes using `pinecone__runtime()` to embed it in that location. (note this isn't actually implemented yet)
+
+Please read `JSVSLUA.md` before trying to use pinecone so you at least have some idea of how it works. Eventually I'll write a user guide but right now I'm just concerned about getting pinecone functional.
 
 ## What works
 * Variables `var a = 1`
@@ -26,10 +22,11 @@ This can be handled in a couple different ways, but none are very good options.
 * Graceful failing
 * While loops
 * Do While loops (converted to `repeat` loops)
+* for..in.. loops
 
 ## What doesn't
 * Comments
-* For loops
+* Other types of for loops
 * Everything else
 
 
