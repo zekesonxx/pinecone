@@ -2,7 +2,6 @@
 'use strict';
 var fs = require('fs');
 var path = require('path');
-var pinecone = require('../');
 
 var nomnom = require('nomnom')
    .script('pinecone')
@@ -35,6 +34,8 @@ if (opts._.length === 0) {
   console.log(nomnom.getUsage());
   process.exit(0);
 }
+
+var pinecone = require('../');
 
 var file = path.join(process.cwd(), opts._[0]);
 fs.readFile(file, { encoding: 'utf8' }, function(err, data) {
