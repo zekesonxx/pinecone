@@ -78,11 +78,11 @@ local k, b, f = "blue", nil, 12
 local p = 4
 if type(k) == "string" then
   print("String!")
-  
+
 end
 function bacon()
   return "bacon"
-  
+
 end
 local f = function() end
 ````

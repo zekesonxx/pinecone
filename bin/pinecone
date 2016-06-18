@@ -3,10 +3,6 @@
 var fs = require('fs');
 var path = require('path');
 var pinecone = require('../');
-var argv = require('minimist')(process.argv.slice(2), {
-  string: ['o', 'output'],
-  boolean: ['ast']
-});
 
 var nomnom = require('nomnom')
    .script('pinecone')
@@ -40,17 +36,17 @@ if (opts._.length === 0) {
   process.exit(0);
 }
 
-var file = path.join(process.cwd(), argv._[0]);
+var file = path.join(process.cwd(), opts._[0]);
 fs.readFile(file, { encoding: 'utf8' }, function(err, data) {
   if (err) throw err;
   var output;
-  if (argv.ast) {
+  if (opts.ast) {
     output = pinecone.convertFromAST(JSON.parse(data));
   } else {
     output = pinecone.convert(data);
   }
-  if (argv.o || argv.output) {
-    var outfile = path.join(process.cwd(), argv.output || argv.o);
+  if (opts.o || opts.output) {
+    var outfile = path.join(process.cwd(), opts.output || opts.o);
     fs.writeFile(outfile, output, function(err) {
       if (err) throw err;
       else console.log('Saved to ' + outfile);
