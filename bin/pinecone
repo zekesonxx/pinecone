@@ -22,6 +22,11 @@ var nomnom = require('nomnom')
          return 'pinecone version '+require('../package.json').version;
       }
    })
+   .option('run', {
+     abbr: 'r',
+     flag: true,
+     help: 'Runs the converted file in lua'
+   })
    .option('file', {
     position: 0,
     help: 'Input filename. Currently only supports one file.',
@@ -46,13 +51,24 @@ fs.readFile(file, { encoding: 'utf8' }, function(err, data) {
   } else {
     output = pinecone.convert(data);
   }
-  if (opts.o || opts.output) {
-    var outfile = path.join(process.cwd(), opts.output || opts.o);
+  if (opts.output) {
+    var outfile = path.join(process.cwd(), opts.output);
     fs.writeFile(outfile, output, function(err) {
       if (err) throw err;
       else console.log('Saved to ' + outfile);
     });
-  } else {
+  }
+  if (opts.run) {
+    require('child_process').execFile('lua', [], function(error, stdout, stderr) {
+      if (error) {
+        throw error;
+      }
+      console.log(stdout);
+      console.log(stderr);
+    });
+  }
+
+  if (!opts.output && !opts.run) {
     console.log(output);
   }
 });
