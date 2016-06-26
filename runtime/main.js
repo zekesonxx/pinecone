@@ -15,20 +15,20 @@ if (!_G.PineconeRuntime) {
   PineconeRuntime.version = pinecone__version();
 
   PineconeRuntime.concat = function (a, b) {
-    if (typeof a !== 'string' && typeof b !== 'string' ) {
+    if (type(a) !== 'string' && type(b) !== 'string' ) {
       return pinecone__rawlua('a+b');
     } else {
       return pinecone__rawlua('a..b');
     }
   };
 
-  PineconeRuntime.replacements = {
+  PineconeRuntime.typeReplacements = {
     'nil': 'undefined',
     'table': 'object'
   };
   PineconeRuntime.typeof = function(variable) {
     /* globals type */
     var luaType = type(variable);
-    return PineconeRuntime.replacements[luaType] || luaType;
+    return PineconeRuntime.typeReplacements[luaType] || luaType;
   };
 }
