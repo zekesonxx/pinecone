@@ -4,5 +4,6 @@
   "undef": true,
   "indent": 2,
   "quotmark": "single",
-  "predef": ["describe", "it", "before", "beforeEach", "after", "afterEach"]
+  "predef": ["describe", "it", "before", "beforeEach", "after", "afterEach"],
+  "esversion": 6
 }
