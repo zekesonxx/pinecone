@@ -1,32 +1,30 @@
 {
   "name": "pinecone",
-  "version": "0.1.0",
-  "description": "JavaScript->Lua converter",
+  "version": "0.2.0",
+  "description": "JavaScript to Lua converter",
   "main": "lib/index.js",
-  "bin": {
-    "pinecone": "bin/pinecone"
-  },
-  "preferGlobal": true,
-  "dependencies": {
-    "acorn": "~0.5.0",
-    "debug": "^0.8.1",
-    "fast.js": "0.0.3",
-    "nomnom": "^1.8.1"
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/zekesonxx/pinecone.git"
+    "url": "git+https://github.com/zekesonxx/pinecone.git"
   },
   "keywords": [
     "javascript",
     "lua",
     "convert",
-    "ast"
+    "ast",
+    "acorn"
   ],
   "author": "Zeke Sonxx <zeke@zekesonxx.com>",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/zekesonxx/pinecone/issues"
   },
-  "homepage": "https://github.com/zekesonxx/pinecone"
+  "homepage": "https://github.com/zekesonxx/pinecone#readme",
+  "dependencies": {
+    "acorn": "^3.3.0",
+    "debug": "^2.2.0"
+  }
 }
