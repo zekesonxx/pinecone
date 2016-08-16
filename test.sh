@@ -1,2 +1,2 @@
 acorn try.js > try.json
-node "$PWD/test.js"
+"${PWD}/bin/pinecone" try.js -o try.lua

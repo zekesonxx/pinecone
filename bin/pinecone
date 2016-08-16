@@ -1,0 +1,74 @@
+#!/usr/bin/env node
+'use strict';
+const fs = require('fs');
+const path = require('path');
+
+const nomnom = require('nomnom')
+   .script('pinecone')
+   .option('ast', {
+      flag: true,
+      help: 'Input is SpiderMonkey AST and not raw JavaScript.'
+   })
+   .option('output', {
+    abbr: 'o',
+    type: 'string',
+    help: 'Output file, otherwise outputs to stdout'
+   })
+   .option('version', {
+      abbr: 'v',
+      flag: true,
+      help: 'print version and exit',
+      callback: function() {
+         return 'pinecone version '+require('../package.json').version;
+      }
+   })
+   .option('run', {
+     abbr: 'r',
+     flag: true,
+     help: 'Runs the converted file in lua'
+   })
+   .option('file', {
+    position: 0,
+    help: 'Input filename. Currently only supports one file.',
+    required: true
+   })
+   .nocolors();
+const opts = nomnom.parse();
+
+if (opts._.length === 0) {
+  console.log(nomnom.getUsage());
+  process.exit(0);
+}
+
+const pinecone = require('../');
+
+const file = path.join(process.cwd(), opts._[0]);
+fs.readFile(file, { encoding: 'utf8' }, function(err, data) {
+  if (err) throw err;
+  var output;
+  if (opts.ast) {
+    output = pinecone.compileFromAst(JSON.parse(data));
+  } else {
+    output = pinecone.compile(data);
+  }
+  if (opts.output) {
+    var outfile = path.join(process.cwd(), opts.output);
+    fs.writeFile(outfile, output, function(err) {
+      if (err) throw err;
+      else console.log('Saved to ' + outfile);
+    });
+  }
+  if (opts.run) {
+    require('child_process').execFile('lua', ['-e', output], function(error, stdout, stderr) {
+      if (error) {
+        throw error;
+      }
+      console.log(stdout);
+      console.log(stderr);
+    });
+  }
+
+  if (!opts.output && !opts.run) {
+    console.log(output);
+  }
+});
